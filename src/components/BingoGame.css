@@ -1,0 +1,253 @@
+.bingo-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: #9e9e9e;
+  position: relative;
+  overflow: hidden;
+}
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.confetti-car {
+  position: absolute;
+  font-size: 2rem;
+  animation: confetti-fall linear forwards;
+  user-select: none;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.bingo-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+.main-title {
+  font-size: 4.5rem;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: 'Anton', 'Impact', 'Arial Black', sans-serif;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+}
+
+.title-divider {
+  width: 100%;
+  height: 3px;
+  background: white;
+  margin: 0 auto 2.5rem auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bingo-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.bingo-subtitle {
+  font-size: 1.1rem;
+  color: #5a6c7d;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bingo-square {
+  aspect-ratio: 1;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.bingo-square:hover {
+  border-color: #3498db;
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+.bingo-square.checked {
+  background: #e8f5e9;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.bingo-square.checked:hover {
+  background: #c8e6c9;
+  border-color: #388e3c;
+}
+
+.bingo-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bingo-square.checked .bingo-text {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  font-size: 1.2rem;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.bingo-win-message {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: win-pulse 0.5s ease-in-out;
+}
+
+.bingo-win-message h3 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bingo-win-message p {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.95;
+}
+
+@keyframes win-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.bingo-stats {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stats-text {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.stats-text strong {
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.stats-message {
+  font-size: 1rem;
+  color: #5a6c7d;
+  font-style: italic;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .bingo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .bingo-square {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .bingo-title {
+    font-size: 2rem;
+  }
+
+  .bingo-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bingo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bingo-square {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+  }
+
+  .main-title {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .bingo-title {
+    font-size: 1.75rem;
+  }
+}
