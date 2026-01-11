@@ -1,0 +1,463 @@
+.day-in-life-section {
+  background-color: #F5F5F5;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.day-in-life-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+.day-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1F1F1F;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.day-instruction {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #1F1F1F;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Intro Screen */
+.day-intro {
+  text-align: center;
+}
+
+.day-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  color: #1F1F1F;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.day-subtitle p {
+  margin: 8px 0;
+}
+
+.day-primary-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: #FF8C42;
+  color: #1F1F1F;
+  border: none;
+  border-radius: 14px;
+  padding: 18px 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+
+.day-primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #FF7A2E;
+}
+
+.day-primary-button:active {
+  transform: translateY(0);
+}
+
+/* Character Selection */
+.character-select {
+  text-align: center;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.character-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1F1F1F;
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 24px 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  text-align: center;
+}
+
+.character-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #FF8C42;
+}
+
+.character-button:active {
+  transform: translateY(0);
+}
+
+/* Simulation Screen */
+.simulation-screen {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 40px;
+}
+
+.scenario-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.time-block {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  background-color: #F5F5F5;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.scenario-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1F1F1F;
+  margin: 12px 0 0 0;
+}
+
+.options-container {
+  text-align: center;
+}
+
+.options-instruction {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #1F1F1F;
+  margin-bottom: 30px;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.option-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1F1F1F;
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  text-align: center;
+}
+
+.option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #FF8C42;
+}
+
+.option-button:active {
+  transform: translateY(0);
+}
+
+/* Outcome Container */
+.outcome-container {
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.option-result {
+  background-color: #F5F5F5;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.result-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  color: #1F1F1F;
+  margin: 0;
+  font-weight: 500;
+}
+
+.outcome-message {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.outcome-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #1F1F1F;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.continue-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #FF8C42;
+  color: #1F1F1F;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+
+.continue-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #FF7A2E;
+}
+
+.continue-button:active {
+  transform: translateY(0);
+}
+
+/* Results Screen */
+.results-screen {
+  text-align: center;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+}
+
+.stat-item {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #FF8C42;
+}
+
+.stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #1F1F1F;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.results-key-line {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #1F1F1F;
+  margin: 40px 0;
+  line-height: 1.6;
+}
+
+.results-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.results-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1F1F1F;
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  text-align: center;
+}
+
+.results-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #FF8C42;
+}
+
+.results-button:active {
+  transform: translateY(0);
+}
+
+/* Explanation Screen */
+.explanation-screen {
+  text-align: center;
+}
+
+.explanation-content {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 40px;
+  margin: 40px 0;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.explanation-content p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #1F1F1F;
+  line-height: 1.8;
+  margin: 16px 0;
+}
+
+.explanation-spacing {
+  margin: 24px 0 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .day-in-life-section {
+    padding: 40px 16px;
+  }
+
+  .day-title {
+    font-size: 2rem;
+  }
+
+  .day-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .day-instruction {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .simulation-screen {
+    padding: 30px 24px;
+  }
+
+  .scenario-title {
+    font-size: 1.5rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .character-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .results-key-line {
+    font-size: 1.1rem;
+  }
+
+  .results-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .results-button {
+    width: 100%;
+  }
+
+  .explanation-content {
+    padding: 30px 24px;
+  }
+
+  .explanation-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-title {
+    font-size: 1.75rem;
+  }
+
+  .simulation-screen {
+    padding: 24px 20px;
+  }
+
+  .scenario-title {
+    font-size: 1.3rem;
+  }
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+  }
+
+  .explanation-content {
+    padding: 24px 20px;
+  }
+
+  .explanation-content p {
+    font-size: 0.95rem;
+  }
+}

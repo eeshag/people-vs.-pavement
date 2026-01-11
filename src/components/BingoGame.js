@@ -1,166 +1,203 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BingoGame.css';
 
-const BingoGame = () => {
+const BINGO_ITEMS = [
+  'No sidewalks',
+  'Sidewalk randomly ends',
+  'Crossing the road feels illegal',
+  'Everything is at least a 10-minute drive',
+  'Parking lot bigger than the building',
+  'Drive-through everywhere',
+  'Bus stop with no shelter',
+  'Bus comes once an hour (if at all)',
+  'School pickup traffic chaos',
+  'Parents must drive you to hang out',
+  'Bike lane = painted line',
+  'Roads designed like highways',
+  'Speed limit feels like a suggestion',
+  'No safe way to cross a main road',
+  'Side streets still feel unsafe',
+  'Strip malls only',
+  'Nothing open within walking distance',
+  '"Just drive" is the solution',
+  'You can see places but can\'t walk there',
+  'Everyone owns a car',
+  'No shade, no trees',
+  'Wide roads, narrow sidewalks',
+  'No gym in walking distance',
+  'Car required to exist'
+];
+
+function BingoGame() {
+  const [board, setBoard] = useState([]);
+  const [selected, setSelected] = useState(new Set());
+  const [showWinModal, setShowWinModal] = useState(false);
   const [hasWon, setHasWon] = useState(false);
-  const confettiContainerRef = useRef(null);
-  
-  // Bingo items related to car-dependent suburbia
-  const [bingoItems, setBingoItems] = useState([
-    { id: 0, text: 'No sidewalks within walking distance', checked: false },
-    { id: 1, text: 'Nearest grocery store is 2+ miles away', checked: false },
-    { id: 2, text: 'No bike lanes on main roads', checked: false },
-    { id: 3, text: 'Public transit doesn\'t reach your area', checked: false },
-    { id: 4, text: 'Crossing the street feels dangerous', checked: false },
-    { id: 5, text: 'Kids can\'t walk to school safely', checked: false },
-    { id: 6, text: 'Every errand requires a car trip', checked: false },
-    { id: 7, text: 'No nearby parks or public spaces', checked: false },
-    { id: 8, text: 'High-speed traffic on residential streets', checked: false },
-    { id: 9, text: 'No safe place to wait for a bus', checked: false },
-    { id: 10, text: 'Walking means walking in the street', checked: false },
-    { id: 11, text: 'No bike parking at destinations', checked: false },
-    { id: 12, text: 'FREE SPACE', checked: true }, // Center square
-    { id: 13, text: 'Nearest coffee shop is a 15+ min drive', checked: false },
-    { id: 14, text: 'Teenagers can\'t get anywhere independently', checked: false },
-    { id: 15, text: 'Elderly neighbors are housebound', checked: false },
-    { id: 16, text: 'No pedestrian crossings at intersections', checked: false },
-    { id: 17, text: 'Everything is separated by parking lots', checked: false },
-    { id: 18, text: 'No mixed-use development nearby', checked: false },
-    { id: 19, text: 'Can\'t walk to a friend\'s house', checked: false },
-    { id: 20, text: 'No safe route for kids to bike', checked: false },
-    { id: 21, text: 'Public spaces are only accessible by car', checked: false },
-    { id: 22, text: 'No shade or shelter while walking', checked: false },
-    { id: 23, text: 'Nearest library is a 20+ min drive', checked: false },
-    { id: 24, text: 'No way to get around without a license', checked: false },
-  ]);
 
-  const toggleItem = (id) => {
-    setBingoItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
-
-  // Check for bingo win (5 in a row: rows, columns, diagonals)
-  const checkForWin = (items) => {
-    const grid = [];
-    // Convert flat array to 5x5 grid
-    for (let i = 0; i < 5; i++) {
-      grid[i] = [];
-      for (let j = 0; j < 5; j++) {
-        grid[i][j] = items[i * 5 + j].checked;
+  // Initialize board on mount
+  useEffect(() => {
+    // Fisher-Yates shuffle algorithm to properly shuffle all 24 items
+    const shuffled = [...BINGO_ITEMS];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    const flatBoard = new Array(25);
+    
+    // Place free space at center (index 12)
+    flatBoard[12] = { type: 'free', text: 'FREE SPACE' };
+    
+    // Fill remaining 24 positions with shuffled items (exactly one of each)
+    let itemIndex = 0;
+    for (let i = 0; i < 25; i++) {
+      if (i !== 12) {
+        flatBoard[i] = { type: 'item', text: shuffled[itemIndex++] };
       }
     }
-
-    // Check rows
+    
+    // Convert flat array to 5x5 grid
+    const newBoard = [];
     for (let i = 0; i < 5; i++) {
-      if (grid[i].every(cell => cell)) return true;
+      const row = [];
+      for (let j = 0; j < 5; j++) {
+        row.push(flatBoard[i * 5 + j]);
+      }
+      newBoard.push(row);
     }
+    
+    setBoard(newBoard);
+    // Free space is always selected
+    setSelected(new Set([12])); // Position 2,2 = index 12 (2*5 + 2)
+  }, []);
 
-    // Check columns
-    for (let j = 0; j < 5; j++) {
-      if (grid.every(row => row[j])) return true;
-    }
-
-    // Check main diagonal (top-left to bottom-right)
-    if (grid.every((row, i) => row[i])) return true;
-
-    // Check anti-diagonal (top-right to bottom-left)
-    if (grid.every((row, i) => row[4 - i])) return true;
-
-    return false;
-  };
-
-  // Trigger car confetti
-  const triggerCarConfetti = () => {
-    const cars = ['🚗', '🚙', '🚕', '🚐', '🚚', '🚛', '🚜', '🏎️'];
-    const container = confettiContainerRef.current;
-    if (!container) return;
-
-    // Clear any existing confetti
-    container.innerHTML = '';
-
-    // Create 50 car confetti pieces
-    for (let i = 0; i < 50; i++) {
-      const car = document.createElement('div');
-      car.className = 'confetti-car';
-      car.textContent = cars[Math.floor(Math.random() * cars.length)];
-      car.style.left = Math.random() * 100 + '%';
-      car.style.animationDelay = Math.random() * 2 + 's';
-      car.style.animationDuration = (Math.random() * 2 + 3) + 's';
-      container.appendChild(car);
-    }
-
-    // Remove confetti after animation
-    setTimeout(() => {
-      container.innerHTML = '';
-    }, 5000);
-  };
-
-  // Check for win whenever items change
+  // Check for win condition
   useEffect(() => {
-    if (checkForWin(bingoItems) && !hasWon) {
+    if (board.length === 0) return;
+    
+    const checkWin = () => {
+      // Check rows
+      for (let i = 0; i < 5; i++) {
+        let count = 0;
+        for (let j = 0; j < 5; j++) {
+          const index = i * 5 + j;
+          if (selected.has(index)) count++;
+        }
+        if (count === 5) return true;
+      }
+      
+      // Check columns
+      for (let j = 0; j < 5; j++) {
+        let count = 0;
+        for (let i = 0; i < 5; i++) {
+          const index = i * 5 + j;
+          if (selected.has(index)) count++;
+        }
+        if (count === 5) return true;
+      }
+      
+      // Check diagonal (top-left to bottom-right)
+      let count = 0;
+      for (let i = 0; i < 5; i++) {
+        const index = i * 5 + i;
+        if (selected.has(index)) count++;
+      }
+      if (count === 5) return true;
+      
+      // Check diagonal (top-right to bottom-left)
+      count = 0;
+      for (let i = 0; i < 5; i++) {
+        const index = i * 5 + (4 - i);
+        if (selected.has(index)) count++;
+      }
+      if (count === 5) return true;
+      
+      return false;
+    };
+    
+    if (checkWin() && !hasWon) {
       setHasWon(true);
-      triggerCarConfetti();
+      setShowWinModal(true);
     }
-  }, [bingoItems, hasWon]);
+  }, [selected, board, hasWon]);
 
-  const checkedCount = bingoItems.filter(item => item.checked).length;
-  const totalItems = bingoItems.length;
+  const handleSquareClick = (row, col) => {
+    // Free space is always selected, don't allow toggle
+    if (row === 2 && col === 2) return;
+    
+    const index = row * 5 + col;
+    setSelected(prev => {
+      const newSelected = new Set(prev);
+      if (newSelected.has(index)) {
+        newSelected.delete(index);
+      } else {
+        newSelected.add(index);
+      }
+      return newSelected;
+    });
+  };
+
+  const closeWinModal = () => {
+    setShowWinModal(false);
+  };
 
   return (
-    <section className="bingo-section">
-      <div ref={confettiContainerRef} className="confetti-container"></div>
+    <div className="bingo-section">
       <div className="bingo-container">
-        <h1 className="main-title">PEOPLE VS PAVEMENT</h1>
-        <div className="title-divider"></div>
-        <h2 className="bingo-title">Car-Dependency Bingo</h2>
-        <p className="bingo-subtitle">
-          Check off the features of car-dependent suburbia that affect your daily life.
-        </p>
+        <h2 className="bingo-title">Bingo — Car-Dependent Suburbia</h2>
+        <p className="bingo-instruction">Check what you've experienced.</p>
         
-        <div className="bingo-grid">
-          {bingoItems.map((item) => (
-            <button
-              key={item.id}
-              className={`bingo-square ${item.checked ? 'checked' : ''}`}
-              onClick={() => toggleItem(item.id)}
-              aria-label={item.text}
-            >
-              <span className="bingo-text">{item.text}</span>
-              {item.checked && <span className="checkmark">✓</span>}
-            </button>
+        <div className="bingo-board">
+          {board.map((row, rowIndex) => (
+            <div key={rowIndex} className="bingo-row">
+              {row.map((square, colIndex) => {
+                const index = rowIndex * 5 + colIndex;
+                const isSelected = selected.has(index);
+                const isFreeSpace = square.type === 'free';
+                
+                return (
+                  <div
+                    key={colIndex}
+                    className={`bingo-square ${isSelected ? 'selected' : ''} ${isFreeSpace ? 'free-space' : ''}`}
+                    onClick={() => handleSquareClick(rowIndex, colIndex)}
+                  >
+                    {isFreeSpace && <span className="free-space-icon">⚠️</span>}
+                    <span className="bingo-square-text">{square.text}</span>
+                    {isSelected && !isFreeSpace && (
+                      <span className="check-icon">✓</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           ))}
         </div>
-
-        {hasWon && (
-          <div className="bingo-win-message">
-            <h3>BINGO! 🎉</h3>
-            <p>You've completed a line! This is what car-dependent suburbia looks like.</p>
-          </div>
-        )}
-        <div className="bingo-stats">
-          <p className="stats-text">
-            You've checked <strong>{checkedCount}</strong> out of <strong>{totalItems}</strong> items
-          </p>
-          {checkedCount > 0 && !hasWon && (
-            <p className="stats-message">
-              {checkedCount <= 5 
-                ? "Just getting started? These patterns are everywhere."
-                : checkedCount <= 10
-                ? "You're noticing the patterns. Keep going."
-                : checkedCount <= 15
-                ? "You're seeing how deeply this affects daily life."
-                : checkedCount <= 20
-                ? "This is the reality for many people. You're not alone."
-                : "You've experienced most of these. This is what car-dependent design looks like."}
-            </p>
-          )}
-        </div>
       </div>
-    </section>
+
+      {showWinModal && (
+        <>
+          <div className="modal-overlay" onClick={closeWinModal}></div>
+          <div className="win-modal">
+            <div className="win-modal-content">
+              <h2 className="win-modal-title">Congrats!</h2>
+              <p className="win-modal-text">Your suburb was designed for cars, not people.</p>
+              <div className="car-confetti">
+                {[...Array(20)].map((_, i) => (
+                  <span key={i} className="car-emoji" style={{
+                    animationDelay: `${i * 0.1}s`,
+                    left: `${Math.random() * 100}%`,
+                  }}>🚗</span>
+                ))}
+              </div>
+              <button className="win-modal-button" onClick={closeWinModal}>
+                Keep scrolling
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
-};
+}
 
 export default BingoGame;

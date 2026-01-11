@@ -1,0 +1,141 @@
+.excuse-section {
+  background-color: #F5F5F5;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.excuse-container {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+.excuse-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1F1F1F;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.excuse-instruction {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #1F1F1F;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.excuse-display {
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 40px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.excuse-placeholder {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #999;
+  margin: 0;
+  font-style: italic;
+}
+
+.excuse-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  color: #1F1F1F;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+.excuse-button {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #FF8C42;
+  color: #1F1F1F;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  text-align: center;
+}
+
+.excuse-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #FF7A2E;
+}
+
+.excuse-button:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .excuse-section {
+    padding: 40px 16px;
+  }
+
+  .excuse-title {
+    font-size: 2rem;
+  }
+
+  .excuse-instruction {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .excuse-display {
+    padding: 30px 24px;
+    min-height: 100px;
+  }
+
+  .excuse-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .excuse-title {
+    font-size: 1.75rem;
+  }
+
+  .excuse-display {
+    padding: 24px 20px;
+    min-height: 90px;
+  }
+
+  .excuse-text {
+    font-size: 1rem;
+  }
+
+  .excuse-button {
+    font-size: 0.95rem;
+    padding: 14px 28px;
+  }
+}

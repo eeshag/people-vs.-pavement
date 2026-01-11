@@ -1,40 +1,9 @@
 .bingo-section {
-  min-height: 100vh;
+  background-color: #F5F5F5;
+  padding: 60px 20px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  background: #9e9e9e;
-  position: relative;
-  overflow: hidden;
-}
-
-.confetti-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1000;
-}
-
-.confetti-car {
-  position: absolute;
-  font-size: 2rem;
-  animation: confetti-fall linear forwards;
-  user-select: none;
-}
-
-@keyframes confetti-fall {
-  0% {
-    transform: translateY(-100px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(calc(100vh + 100px)) rotate(360deg);
-    opacity: 0;
-  }
+  align-items: flex-start;
 }
 
 .bingo-container {
@@ -42,209 +11,288 @@
   width: 100%;
 }
 
-.main-title {
-  font-size: 4.5rem;
-  font-weight: 400;
-  color: white;
-  text-align: center;
-  margin: 0 0 1.5rem 0;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-family: 'Anton', 'Impact', 'Arial Black', sans-serif;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
-  line-height: 1.1;
-}
-
-.title-divider {
-  width: 100%;
-  height: 3px;
-  background: white;
-  margin: 0 auto 2.5rem auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 .bingo-title {
+  font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #1F1F1F;
+  margin-bottom: 12px;
   text-align: center;
 }
 
-.bingo-subtitle {
+.bingo-instruction {
+  font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
-  color: #5a6c7d;
+  color: #1F1F1F;
   text-align: center;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
+  margin-bottom: 40px;
 }
 
-.bingo-grid {
+.bingo-board {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #F5F5F5;
+}
+
+.bingo-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 12px;
 }
 
 .bingo-square {
-  aspect-ratio: 1;
-  background: #ffffff;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  background-color: white;
+  border: 1px solid #CFCFCF;
+  border-radius: 14px;
+  padding: 20px 16px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #2c3e50;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   text-align: center;
-  line-height: 1.3;
 }
 
 .bingo-square:hover {
-  border-color: #3498db;
-  background: #f8f9fa;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.bingo-square.checked {
-  background: #e8f5e9;
-  border-color: #4caf50;
-  color: #2e7d32;
+.bingo-square.selected {
+  background-color: #FF8C42;
+  border-color: #FF8C42;
+  color: #1F1F1F;
 }
 
-.bingo-square.checked:hover {
-  background: #c8e6c9;
-  border-color: #388e3c;
+.bingo-square.free-space {
+  background-color: #FFD23F;
+  border-color: #FFD23F;
+  font-weight: bold;
+  min-height: 140px;
+  cursor: default;
 }
 
-.bingo-text {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.bingo-square.free-space:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.bingo-square.checked .bingo-text {
-  text-decoration: line-through;
-  opacity: 0.7;
+.bingo-square-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #1F1F1F;
+  font-weight: 400;
 }
 
-.checkmark {
+.bingo-square.selected .bingo-square-text {
+  font-weight: 500;
+  color: #1F1F1F;
+}
+
+.bingo-square.free-space .bingo-square-text {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.free-space-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.check-icon {
   position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
+  top: 8px;
+  right: 10px;
   font-size: 1.2rem;
-  color: #4caf50;
+  color: #1F1F1F;
   font-weight: bold;
 }
 
-.bingo-win-message {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  margin-bottom: 2rem;
-  animation: win-pulse 0.5s ease-in-out;
+/* Win Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
 }
 
-.bingo-win-message h3 {
+.win-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  animation: slideIn 0.4s ease;
+}
+
+.win-modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 50px 40px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  min-width: 320px;
+  max-width: 500px;
+}
+
+.win-modal-title {
+  font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
-  margin: 0 0 0.5rem 0;
-  font-weight: 900;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  color: #1F1F1F;
+  margin-bottom: 16px;
 }
 
-.bingo-win-message p {
+.win-modal-text {
+  font-family: 'Inter', sans-serif;
   font-size: 1.2rem;
-  margin: 0;
-  opacity: 0.95;
+  color: #1F1F1F;
+  margin-bottom: 30px;
+  line-height: 1.6;
 }
 
-@keyframes win-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.bingo-stats {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.stats-text {
-  font-size: 1.1rem;
-  color: #2c3e50;
-  margin-bottom: 0.75rem;
-}
-
-.stats-text strong {
-  color: #3498db;
-  font-size: 1.2rem;
-}
-
-.stats-message {
+.win-modal-button {
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  color: #5a6c7d;
-  font-style: italic;
-  margin-top: 0.5rem;
-  line-height: 1.5;
+  font-weight: 500;
+  background-color: #FF8C42;
+  color: #1F1F1F;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .bingo-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    padding: 0.75rem;
-  }
+.win-modal-button:hover {
+  background-color: #FF7A2E;
+  transform: translateY(-1px);
+}
 
-  .bingo-square {
-    font-size: 0.75rem;
-    padding: 0.5rem;
+.win-modal-button:active {
+  transform: translateY(0);
+}
+
+.car-confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.car-emoji {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: confettiFall 2s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    opacity: 0.7;
+    transform: translateY(200px) rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bingo-section {
+    padding: 40px 16px;
   }
 
   .bingo-title {
     font-size: 2rem;
   }
 
-  .bingo-subtitle {
+  .bingo-instruction {
     font-size: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  .bingo-row {
+    gap: 8px;
+  }
+
+  .bingo-square {
+    min-height: 100px;
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .bingo-square.free-space {
+    min-height: 120px;
+  }
+
+  .bingo-square-text {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .win-modal-content {
+    padding: 40px 30px;
+    margin: 20px;
+    min-width: auto;
+  }
+
+  .win-modal-title {
+    font-size: 2rem;
+  }
+
+  .win-modal-text {
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .bingo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .bingo-square {
-    font-size: 0.7rem;
-    padding: 0.4rem;
+    min-height: 90px;
+    padding: 12px 8px;
   }
 
-  .main-title {
-    font-size: 2rem;
-    letter-spacing: 0.05em;
+  .bingo-square.free-space {
+    min-height: 110px;
+  }
+
+  .bingo-square-text {
+    font-size: 0.75rem;
   }
 
   .bingo-title {
