@@ -99,9 +99,12 @@ function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
@@ -130,7 +133,7 @@ function Chatbot() {
         <h2 className="chatbot-title">Infrastructure Assistant</h2>
         <p className="chatbot-instruction">Select a question.</p>
         
-        <div className="chatbot-messages">
+        <div className="chatbot-messages" ref={messagesContainerRef}>
           {messages.length === 0 && (
             <div className="chatbot-empty-state">
               <p>Start a conversation by selecting a question below.</p>
@@ -155,7 +158,6 @@ function Chatbot() {
               </div>
             </div>
           )}
-          <div ref={chatEndRef} />
         </div>
 
         <div className="chatbot-questions">

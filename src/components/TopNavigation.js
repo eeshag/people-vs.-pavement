@@ -99,7 +99,7 @@ function TopNavigation() {
       <div className="nav-progress" style={{ width: `${scrollProgress}%` }}></div>
       <div className="nav-container">
         <div className="nav-logo" onClick={() => handleNavClick('start')}>
-          People vs Pavement
+          PEOPLE VS PAVEMENT
         </div>
         <button 
           className="nav-mobile-toggle"

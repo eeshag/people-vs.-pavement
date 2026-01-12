@@ -18,7 +18,7 @@ function Hero() {
   return (
     <section id="start" className="hero-section">
       <div className="hero-container">
-        <h1 className="hero-title">People vs Pavement</h1>
+        <h1 className="hero-title">PEOPLE VS PAVEMENT</h1>
         <p className="hero-subtext">
           An interactive look at car dependency and how it shapes daily life.
         </p>

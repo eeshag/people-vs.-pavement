@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import './App.css';
 import TopNavigation from './components/TopNavigation';
 import Hero from './components/Hero';
@@ -8,6 +9,38 @@ import ExcuseGenerator from './components/ExcuseGenerator';
 import Conclusion from './components/Conclusion';
 
 function App() {
+  useEffect(() => {
+    // Disable browser scroll restoration to prevent unwanted scroll position
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    
+    // Handle hash navigation if present
+    const hash = window.location.hash;
+    if (hash) {
+      // If there's a hash, wait a bit then scroll to it
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      // If no hash, ensure we're at the top immediately
+      window.scrollTo(0, 0);
+      // Also scroll to top after a short delay to override any browser restoration
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    }
+  }, []);
+
   return (
     <div className="App">
       <TopNavigation />
