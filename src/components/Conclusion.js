@@ -10,7 +10,7 @@ function Conclusion() {
         </div>
         
         <div className="conclusion-card">
-          <h2 className="conclusion-title">Why I Made This Site</h2>
+          <h2 className="conclusion-title">PEOPLE VS. PAVEMENT</h2>
           
           <div className="conclusion-content">
             <p className="conclusion-paragraph">

@@ -37,7 +37,7 @@ function ExcuseGenerator() {
   return (
     <div className="excuse-section">
       <div className="excuse-container">
-        <h2 className="excuse-title">The Excuse Generator</h2>
+        <h2 className="excuse-title">PEOPLE VS. EXCUSES</h2>
         <p className="excuse-instruction">Click to generate a common justification for car-dependent suburbia.</p>
         
         <div className="excuse-display">

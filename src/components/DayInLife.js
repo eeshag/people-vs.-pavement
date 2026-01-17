@@ -14,33 +14,46 @@ const SCENARIOS = {
       time: 'Morning',
       title: 'Getting to School',
       options: [
-        { text: 'Walk', result: '❌ No sidewalks, long distance', success: false },
-        { text: 'Bike', result: '❌ Bike lane disappears, fast traffic', success: false },
-        { text: 'Bus', result: '❌ Infrequent service, far stop', success: false },
-        { text: 'Get a ride', result: '✅ Parent drives you', success: true }
+        { text: 'Walk', result: 'Ha! You wish you could walk to school', success: false, goBack: true },
+        { text: 'Bike', result: 'Fast traffic, not safe to bike', success: false, goBack: true },
+        { text: 'Bus', result: 'Bus was late, you were late to school', success: false },
+        { text: 'Ride', result: 'Parents were free to give you a ride', success: true }
       ],
-      outcome: 'You arrive — because someone else had time.'
+      outcome: null
     },
     {
       time: 'Afternoon',
       title: 'After-School Activity',
       options: [
-        { text: 'Walk home after', result: '❌ Unsafe after dark', success: false },
-        { text: 'Bus', result: '❌ Last bus leaves early', success: false },
-        { text: 'Ride later', result: '❌ No one available', success: false }
+        { text: 'Bus', result: 'You went to the activity, but the late bus never came, you were stuck at school for an hour until someone could come pick you up', success: false },
+        { text: 'Ride', result: 'Your parents said they were busy so you decided to go home early and miss the activity', success: false },
+        { text: 'Walk', result: 'You live too far away to walk to school remember', success: false },
+        { text: 'Bike', result: 'Dark outside, not safe to bike', success: false }
       ],
-      outcome: 'You leave early and miss the activity.'
+      outcome: null
     },
     {
       time: 'Evening',
-      title: 'Seeing Friends',
+      title: 'Hanging out with Friends',
       options: [
-        { text: 'Walk', result: '❌ Highway-adjacent route', success: false },
-        { text: 'Bike', result: '❌ No bike infrastructure', success: false },
-        { text: 'Bus', result: '❌ No route', success: false },
-        { text: 'Ride', result: '❌ Parents busy', success: false }
+        { text: 'Ride', result: 'Your parents are busy, you have to stay home', success: false },
+        { text: 'Walk', result: 'Highway adjacent road, you have to stay home', success: false },
+        { text: 'Bike', result: 'No bike infrastructure, dark after, you have to stay home', success: false },
+        { text: 'Bus', result: 'No bus routes to anywhere near your friends house', success: false }
       ],
-      outcome: 'You stay home.'
+      outcome: null,
+      conditional: true
+    },
+    {
+      time: 'Afternoon',
+      title: 'Running Errands',
+      options: [
+        { text: 'Walk', result: 'No way to get there', success: false },
+        { text: 'Ride', result: 'No car, parents don\'t want to drive you', success: false },
+        { text: 'Bus', result: 'Bus stopped', success: false },
+        { text: 'Bike', result: 'No way to bike there either', success: false }
+      ],
+      outcome: null
     }
   ],
   'low-income': [
@@ -117,6 +130,7 @@ function DayInLife() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [stats, setStats] = useState({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
   const [showOutcome, setShowOutcome] = useState(false);
+  const [previousChoices, setPreviousChoices] = useState([]);
 
   const handleStartDay = () => {
     setScreen('character-select');
@@ -129,11 +143,23 @@ function DayInLife() {
     setSelectedOption(null);
     setShowOutcome(false);
     setStats({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
+    setPreviousChoices([]);
   };
 
   const handleOptionSelect = (option) => {
+    // If option requires going back, just reset to show options again
+    if (option.goBack) {
+      setSelectedOption(option);
+      setShowOutcome(true);
+      return;
+    }
+
     setSelectedOption(option);
     setShowOutcome(true);
+    
+    // Track the choice for conditional scenarios
+    const newChoices = [...previousChoices, { scenarioIndex: currentScenarioIndex, optionText: option.text }];
+    setPreviousChoices(newChoices);
     
     const newStats = { ...stats };
     newStats.tripsAttempted++;
@@ -147,6 +173,12 @@ function DayInLife() {
   };
 
   const handleContinue = () => {
+    if (selectedOption && selectedOption.goBack) {
+      setSelectedOption(null);
+      setShowOutcome(false);
+      return;
+    }
+
     const scenarios = SCENARIOS[selectedCharacter];
     if (currentScenarioIndex < scenarios.length - 1) {
       setCurrentScenarioIndex(currentScenarioIndex + 1);
@@ -164,6 +196,7 @@ function DayInLife() {
     setSelectedOption(null);
     setShowOutcome(false);
     setStats({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
+    setPreviousChoices([]);
   };
 
   const handleWhyThisHappens = () => {
@@ -174,15 +207,32 @@ function DayInLife() {
     setScreen('results');
   };
 
-  const currentScenario = selectedCharacter ? SCENARIOS[selectedCharacter][currentScenarioIndex] : null;
-  const characterName = selectedCharacter ? CHARACTERS.find(c => c.id === selectedCharacter)?.name : '';
+  const getCurrentScenario = () => {
+    if (!selectedCharacter) return null;
+
+    const scenario = SCENARIOS[selectedCharacter][currentScenarioIndex];
+
+    if (scenario && scenario.conditional && selectedCharacter === 'teenager' && currentScenarioIndex === 2) {
+      const afterSchoolChoice = previousChoices.find((choice) => choice.scenarioIndex === 1);
+      if (afterSchoolChoice && afterSchoolChoice.optionText === 'Bus') {
+        return {
+          ...scenario,
+          outcome: 'You weren\'t able to hang out with your friend because you were stuck at school for an hour'
+        };
+      }
+    }
+
+    return scenario;
+  };
+
+  const currentScenario = getCurrentScenario();
 
   return (
     <div className="day-in-life-section">
       <div className="day-in-life-container">
         {screen === 'intro' && (
           <div className="day-intro">
-            <h2 className="day-title">A Day in the Life (Without a Car)</h2>
+            <h2 className="day-title">PEOPLE VS. INDEPENDENCE</h2>
             <div className="day-subtitle">
               <p>You live in a typical car-dependent suburb.</p>
               <p>You do not have a car today.</p>
@@ -242,12 +292,19 @@ function DayInLife() {
                       <p className="result-text">{selectedOption.result}</p>
                     </div>
                   )}
-                  <div className="outcome-message">
-                    <p className="outcome-text">{currentScenario.outcome}</p>
-                  </div>
+                  {currentScenario.outcome && (
+                    <div className="outcome-message">
+                      <p className="outcome-text">{currentScenario.outcome}</p>
+                    </div>
+                  )}
+                  {selectedOption && selectedOption.goBack && (
+                    <div className="outcome-message">
+                      <p className="outcome-text">(Go back to previous screen, choose again)</p>
+                    </div>
+                  )}
                 </div>
                 <button className="continue-button" onClick={handleContinue}>
-                  👉 Continue →
+                  {selectedOption && selectedOption.goBack ? '← Choose Again' : '👉 Continue →'}
                 </button>
               </div>
             )}

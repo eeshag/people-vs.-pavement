@@ -95,11 +95,57 @@ const RESPONSES = {
   ]
 };
 
+/*
+const PREFACE_RESPONSES = [
+  'Great question!',
+  'Good question!',
+  'Love that question!',
+  'That is a great question.',
+  'Glad you asked!',
+  'Thanks for asking!',
+  'Interesting question!',
+  'Excellent question!',
+  'That is a fair question.'
+];
+
+const FOLLOWUP_RESPONSES = [
+  'Please let me know if you have any other questions!',
+  'Ask anytime if you want to know more.',
+  'Happy to help with any other questions.',
+  'Let me know if you want to dive deeper.',
+  'Feel free to ask another question.',
+  'I am here if you have more questions.',
+  'Reach out if anything else comes up.',
+  'Let me know if you want another answer.'
+];
+
+const getRandomNonRepeating = (responses, lastRef) => {
+  if (!responses.length) return '';
+  if (responses.length === 1) {
+    lastRef.current = responses[0];
+    return responses[0];
+  }
+
+  let next = responses[Math.floor(Math.random() * responses.length)];
+  while (next === lastRef.current) {
+    next = responses[Math.floor(Math.random() * responses.length)];
+  }
+  lastRef.current = next;
+  return next;
+};
+*/
+
 function Chatbot() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { type: 'bot', text: 'hi!' },
+    { type: 'bot', text: 'Start a conversation by selecting a question below.' }
+  ]);
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const questionCountRef = useRef(0);
+  // const lastPrefaceRef = useRef(null);
+  // const lastFollowUpRef = useRef(null);
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -115,30 +161,67 @@ function Chatbot() {
     // Add user question to messages
     const userMessage = { type: 'user', text: question };
     setMessages(prev => [...prev, userMessage]);
+    questionCountRef.current += 1;
     setIsTyping(true);
 
     // Simulate typing delay
     setTimeout(() => {
-      const responses = RESPONSES[question];
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      const botMessage = { type: 'bot', text: randomResponse };
-      setMessages(prev => [...prev, botMessage]);
-      setIsTyping(false);
+      /*
+      const shouldPreface = Math.random() < 0.6;
+      const prefaceDelay = shouldPreface ? 500 : 0;
+
+      if (shouldPreface) {
+        const prefaceText = getRandomNonRepeating(PREFACE_RESPONSES, lastPrefaceRef);
+        const prefaceMessage = { type: 'bot', text: prefaceText };
+        setMessages(prev => [...prev, prefaceMessage]);
+      }
+      */
+
+      setTimeout(() => {
+        const responses = RESPONSES[question];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        const botMessage = { type: 'bot', text: randomResponse };
+        setMessages(prev => [...prev, botMessage]);
+
+        /*
+        const shouldFollowUp = Math.random() < 0.4;
+        const followUpDelay = shouldFollowUp ? 500 : 0;
+
+        setTimeout(() => {
+          if (shouldFollowUp) {
+            const followUpText = getRandomNonRepeating(FOLLOWUP_RESPONSES, lastFollowUpRef);
+            const followUpMessage = { type: 'bot', text: followUpText };
+            setMessages(prev => [...prev, followUpMessage]);
+          }
+          setIsTyping(false);
+        }, followUpDelay);
+        */
+
+        if (questionCountRef.current === 5) {
+          setTimeout(() => {
+            setMessages(prev => [
+              ...prev,
+              {
+                type: 'bot',
+                text: 'These are amazing questions by the way, hope my responses are helping :)'
+              }
+            ]);
+            setIsTyping(false);
+          }, 500);
+        } else {
+          setIsTyping(false);
+        }
+      }, 0);
     }, 500);
   };
 
   return (
     <div className="chatbot-section">
       <div className="chatbot-container">
-        <h2 className="chatbot-title">Infrastructure Assistant</h2>
+        <h2 className="chatbot-title">PEOPLE VS. COMMON SENSE</h2>
         <p className="chatbot-instruction">Select a question.</p>
         
         <div className="chatbot-messages" ref={messagesContainerRef}>
-          {messages.length === 0 && (
-            <div className="chatbot-empty-state">
-              <p>Start a conversation by selecting a question below.</p>
-            </div>
-          )}
           {messages.map((message, index) => (
             <div
               key={index}

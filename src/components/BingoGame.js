@@ -144,7 +144,7 @@ function BingoGame() {
   return (
     <div className="bingo-section">
       <div className="bingo-container">
-        <h2 className="bingo-title">Bingo — Car-Dependent Suburbia</h2>
+        <h2 className="bingo-title">PEOPLE VS. SUBURBIA</h2>
         <p className="bingo-instruction">Check what you've experienced.</p>
         
         <div className="bingo-board">
@@ -161,10 +161,10 @@ function BingoGame() {
                     className={`bingo-square ${isSelected ? 'selected' : ''} ${isFreeSpace ? 'free-space' : ''}`}
                     onClick={() => handleSquareClick(rowIndex, colIndex)}
                   >
-                    {isFreeSpace && <span className="free-space-icon">⚠️</span>}
+                    {isFreeSpace && <span className="free-space-icon">🚗</span>}
                     <span className="bingo-square-text">{square.text}</span>
                     {isSelected && !isFreeSpace && (
-                      <span className="check-icon">✓</span>
+                      <span className="check-icon">🚗</span>
                     )}
                   </div>
                 );

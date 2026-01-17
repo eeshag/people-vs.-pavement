@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+People vs Pavement
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+People vs Pavement is an interactive, single-page website that explores the social, emotional, and practical consequences of living in car-dependent suburbia. Designed to be engaging rather than preachy, the project uses humor, sarcasm, and narrative storytelling to help users recognize how car-centric infrastructure shapes daily life—often in ways we accept without question.
 
-## Available Scripts
+The experience is intentionally scroll-based, allowing users to move linearly through the content, while also providing top-level navigation to jump between sections. Each section is meant to feel lightweight and accessible on its own, but more powerful in sequence.
 
-In the project directory, you can run:
+Concept & Experience
 
-### `npm start`
+The site walks users through a series of interactive modules, each highlighting a different aspect of car dependency:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Car-Dependency Bingo
+Users begin by checking off familiar features of car-dependent suburbia—long distances, unsafe roads, lack of sidewalks—to see how deeply these patterns affect their own lives.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Sarcastic Chatbot
+A deliberately blunt chatbot answers pre-selected questions about mobility and safety with dry, sarcastic responses (e.g., “Can I bike safely?” → “No 💓”), using humor to underline serious constraints.
 
-### `npm test`
+A Day in the Life
+A narrative section following a teenager navigating daily life in a car-dependent suburb, illustrating how limited transportation affects independence, social life, and opportunity.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Disproportionate Impacts
+A breakdown of how car-centric design affects specific groups—children, teenagers, elderly individuals, low-income communities, and people with disabilities—highlighting inequities baked into infrastructure.
 
-### `npm run build`
+The Excuse Generator
+A button-driven feature that cycles through common justifications for car-dependent suburbia, exposing how normalized and recycled these arguments often are.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Why This Project Exists
+A closing reflection explaining the motivation behind the project and tying the experience together with a clear, intentional conclusion.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Audience
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is primarily for people currently living in car-dependent suburbs, especially those who may feel frustrated by mobility constraints but haven’t had language or framing to describe why. It is not aimed at urban planners or policy experts, but at everyday users experiencing these systems firsthand.
 
-### `npm run eject`
+Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Frontend: React (plain React with HTML, CSS, and JavaScript)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Architecture: Single-page, scroll-based experience
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Deployment: Vercel
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The technical implementation is intentionally simple to keep the focus on storytelling, interaction, and user experience rather than complex infrastructure.
 
-## Learn More
+Live Site
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The project is deployed and accessible online:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Live URL: (insert your Vercel link here)
 
-### Code Splitting
+Call to Action
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Car-dependent suburbia isn’t just an aesthetic or lifestyle choice—it’s an infrastructure decision with real consequences. If parts of this site felt familiar, frustrating, or uncomfortably accurate, that reaction is the point. Question what you’ve normalized, notice who is excluded by default, and consider how different design choices could create safer, more independent, and more humane places to live.
 
-### Analyzing the Bundle Size
+Status
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is an evolving, live web experience. Future iterations may expand interactivity, refine storytelling, or incorporate additional perspectives, but the core goal remains the same: making invisible infrastructure visible.
