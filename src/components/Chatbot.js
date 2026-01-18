@@ -141,7 +141,6 @@ function Chatbot() {
     { type: 'bot', text: 'Start a conversation by selecting a question below.' }
   ]);
   const [isTyping, setIsTyping] = useState(false);
-  const chatEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const questionCountRef = useRef(0);
   // const lastPrefaceRef = useRef(null);
