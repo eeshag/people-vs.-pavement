@@ -218,7 +218,7 @@ function Chatbot() {
     <div className="chatbot-section">
       <div className="chatbot-container">
         <h2 className="chatbot-title">PEOPLE VS. COMMON SENSE</h2>
-        <p className="chatbot-instruction">Select a question.</p>
+        <p className="chatbot-instruction">Choose a question to ask the suburb. The replies show the kind of answers people often get.</p>
         
         <div className="chatbot-messages" ref={messagesContainerRef}>
           {messages.map((message, index) => (

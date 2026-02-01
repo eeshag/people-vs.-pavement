@@ -27,24 +27,26 @@ const EXCUSES = [
 function ExcuseGenerator() {
   const [currentExcuse, setCurrentExcuse] = useState('');
   const [hasGenerated, setHasGenerated] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
 
   const generateExcuse = () => {
     const randomExcuse = EXCUSES[Math.floor(Math.random() * EXCUSES.length)];
     setCurrentExcuse(randomExcuse);
     setHasGenerated(true);
+    setAnimationKey((prevKey) => prevKey + 1);
   };
 
   return (
     <div className="excuse-section">
       <div className="excuse-container">
         <h2 className="excuse-title">PEOPLE VS. EXCUSES</h2>
-        <p className="excuse-instruction">Click to generate a common justification for car-dependent suburbia.</p>
+        <p className="excuse-instruction">Click to generate a common justification people use to defend car-dependent suburbia. Click again for a new one.</p>
         
         <div className="excuse-display">
           {!hasGenerated ? (
             <p className="excuse-placeholder">Click the button to generate an excuse</p>
           ) : (
-            <p className="excuse-text">{currentExcuse}</p>
+            <p key={animationKey} className="excuse-text">{currentExcuse}</p>
           )}
         </div>
 

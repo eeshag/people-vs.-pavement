@@ -20,7 +20,7 @@ function Hero() {
       <div className="hero-container">
         <h1 className="hero-title">PEOPLE VS PAVEMENT</h1>
         <p className="hero-subtext">
-          An interactive look at car dependency and how it shapes daily life.
+          An interactive set of mini experiences showing how car-dependent design affects everyday choices, access, and independence.
         </p>
         <button className="hero-cta" onClick={handleStartClick}>
           Start scrolling

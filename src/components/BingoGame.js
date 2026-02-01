@@ -145,7 +145,7 @@ function BingoGame() {
     <div className="bingo-section">
       <div className="bingo-container">
         <h2 className="bingo-title">PEOPLE VS. SUBURBIA</h2>
-        <p className="bingo-instruction">Check what you've experienced.</p>
+        <p className="bingo-instruction">Tap each square that matches your experience. The center is a free space, and five in a row is a bingo.</p>
         
         <div className="bingo-board">
           {board.map((row, rowIndex) => (
@@ -190,7 +190,7 @@ function BingoGame() {
                 ))}
               </div>
               <button className="win-modal-button" onClick={closeWinModal}>
-                Keep scrolling
+                Yay!
               </button>
             </div>
           </div>

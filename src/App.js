@@ -45,6 +45,7 @@ function App() {
     <div className="App">
       <TopNavigation />
       <Hero />
+      <div className="section-divider" aria-hidden="true"></div>
       <section id="bingo">
         <BingoGame />
         <div className="section-transition">
@@ -52,6 +53,7 @@ function App() {
           <p className="transition-text">Okay… now ask the suburb a question.</p>
         </div>
       </section>
+      <div className="section-divider" aria-hidden="true"></div>
       <section id="chat">
         <Chatbot />
         <div className="section-transition">
@@ -59,6 +61,7 @@ function App() {
           <p className="transition-text">Now try living a full day like this.</p>
         </div>
       </section>
+      <div className="section-divider" aria-hidden="true"></div>
       <section id="simulator">
         <DayInLife />
         <div className="section-transition">
@@ -66,6 +69,7 @@ function App() {
           <p className="transition-text">Same place. Same rules.</p>
         </div>
       </section>
+      <div className="section-divider" aria-hidden="true"></div>
       <section id="excuses">
         <ExcuseGenerator />
         <div className="section-transition">
@@ -73,6 +77,7 @@ function App() {
           <p className="transition-text">So why make this at all?</p>
         </div>
       </section>
+      <div className="section-divider" aria-hidden="true"></div>
       <section id="why">
         <Conclusion />
       </section>

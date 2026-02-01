@@ -8,6 +8,14 @@ section {
   scroll-margin-top: 80px;
 }
 
+.section-divider {
+  height: 1px;
+  background-color: #CFCFCF;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .section-transition {
   display: flex;
   flex-direction: column;

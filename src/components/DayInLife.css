@@ -345,6 +345,32 @@
   margin: 16px 0;
 }
 
+.explanation-intro {
+  margin-bottom: 28px;
+}
+
+.explanation-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1F1F1F;
+  margin: 24px 0 12px;
+}
+
+.explanation-list {
+  margin: 0 0 20px 20px;
+  padding: 0;
+  list-style: disc;
+}
+
+.explanation-list li {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  color: #1F1F1F;
+  line-height: 1.7;
+  margin: 10px 0;
+}
+
 .explanation-spacing {
   margin: 24px 0 !important;
 }
@@ -430,6 +456,14 @@
   .explanation-content p {
     font-size: 1rem;
   }
+
+  .explanation-heading {
+    font-size: 1.1rem;
+  }
+
+  .explanation-list li {
+    font-size: 0.98rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -459,5 +493,13 @@
 
   .explanation-content p {
     font-size: 0.95rem;
+  }
+
+  .explanation-heading {
+    font-size: 1.05rem;
+  }
+
+  .explanation-list li {
+    font-size: 0.92rem;
   }
 }

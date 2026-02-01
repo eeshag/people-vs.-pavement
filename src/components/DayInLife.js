@@ -3,9 +3,7 @@ import './DayInLife.css';
 
 const CHARACTERS = [
   { id: 'teenager', name: 'Teenager' },
-  { id: 'low-income', name: 'Low-Income Adult' },
-  { id: 'elderly', name: 'Elderly Person' },
-  { id: 'disability', name: 'Person with a Disability' }
+  { id: 'elderly', name: 'Elderly Person' }
 ];
 
 const SCENARIOS = {
@@ -56,29 +54,6 @@ const SCENARIOS = {
       outcome: null
     }
   ],
-  'low-income': [
-    {
-      time: 'Morning',
-      title: 'Getting to Work',
-      options: [
-        { text: 'Walk', result: '❌ Distance too far', success: false },
-        { text: 'Bus', result: '❌ Unreliable timing', success: false },
-        { text: 'Bike', result: '❌ Dangerous roads', success: false },
-        { text: 'Ride-share', result: '❌ Too expensive', success: false }
-      ],
-      outcome: 'You\'re late or risk losing pay.'
-    },
-    {
-      time: 'Afternoon',
-      title: 'Errand',
-      options: [
-        { text: 'Walk', result: '❌ No nearby stores', success: false },
-        { text: 'Bus', result: '❌ Transfers add 90 minutes', success: false },
-        { text: 'Bike', result: '❌ Unsafe crossings', success: false }
-      ],
-      outcome: 'Errand postponed.'
-    }
-  ],
   elderly: [
     {
       time: 'Morning',
@@ -98,27 +73,26 @@ const SCENARIOS = {
         { text: 'Bus', result: '❌ Missed connection', success: false }
       ],
       outcome: 'You stay home.'
-    }
-  ],
-  disability: [
-    {
-      time: 'Morning',
-      title: 'Daily Errand',
-      options: [
-        { text: 'Walk', result: '❌ No curb ramps', success: false },
-        { text: 'Bus', result: '❌ Inaccessible stop', success: false },
-        { text: 'Ride', result: '❌ Expensive / unavailable', success: false }
-      ],
-      outcome: 'You go without.'
     },
     {
-      time: 'Afternoon',
-      title: 'Leaving the House',
+      time: 'Midday',
+      title: 'Grocery Run',
       options: [
-        { text: 'Sidewalk', result: '❌ Ends abruptly', success: false },
-        { text: 'Crossing', result: '❌ No signal or refuge', success: false }
+        { text: 'Walk', result: '❌ Heavy bags and long distance', success: false },
+        { text: 'Bus', result: '❌ No direct route to the store', success: false },
+        { text: 'Ride', result: '❌ Family can’t come until later', success: false }
       ],
-      outcome: 'You turn back.'
+      outcome: 'Groceries are postponed.'
+    },
+    {
+      time: 'Evening',
+      title: 'Pick Up Prescriptions',
+      options: [
+        { text: 'Walk', result: '❌ Poor lighting and uneven sidewalks', success: false },
+        { text: 'Bus', result: '❌ Service ends early in the evening', success: false },
+        { text: 'Ride', result: '❌ No one is available to drive', success: false }
+      ],
+      outcome: 'Medication pickup is delayed.'
     }
   ]
 };
@@ -128,7 +102,7 @@ function DayInLife() {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [stats, setStats] = useState({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
+  const [stats, setStats] = useState({ tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
   const [showOutcome, setShowOutcome] = useState(false);
   const [previousChoices, setPreviousChoices] = useState([]);
 
@@ -142,7 +116,7 @@ function DayInLife() {
     setCurrentScenarioIndex(0);
     setSelectedOption(null);
     setShowOutcome(false);
-    setStats({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
+    setStats({ tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
     setPreviousChoices([]);
   };
 
@@ -162,7 +136,6 @@ function DayInLife() {
     setPreviousChoices(newChoices);
     
     const newStats = { ...stats };
-    newStats.tripsAttempted++;
     if (option.success) {
       newStats.tripsCompleted++;
       newStats.timesReliedOnOthers++;
@@ -195,7 +168,7 @@ function DayInLife() {
     setCurrentScenarioIndex(0);
     setSelectedOption(null);
     setShowOutcome(false);
-    setStats({ tripsAttempted: 0, tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
+    setStats({ tripsCompleted: 0, timesReliedOnOthers: 0, activitiesSkipped: 0 });
     setPreviousChoices([]);
   };
 
@@ -217,9 +190,18 @@ function DayInLife() {
       if (afterSchoolChoice && afterSchoolChoice.optionText === 'Bus') {
         return {
           ...scenario,
-          outcome: 'You weren\'t able to hang out with your friend because you were stuck at school for an hour'
+          options: [],
+          autoOutcome: true,
+          outcome: 'Sorry, since you were stuck after school for an hour because the bus never came, you didn\'t have time to go to your friend\'s house.'
         };
       }
+    }
+
+    if (scenario && selectedCharacter === 'teenager' && currentScenarioIndex === 1) {
+      return {
+        ...scenario,
+        optionsInstruction: 'Choose how you will get home after the after-school activity you want to go to.'
+      };
     }
 
     return scenario;
@@ -236,7 +218,7 @@ function DayInLife() {
             <div className="day-subtitle">
               <p>You live in a typical car-dependent suburb.</p>
               <p>You do not have a car today.</p>
-              <p>Let's see how far you get.</p>
+              <p>Pick a character and make travel choices to see what happens.</p>
             </div>
             <button className="day-primary-button" onClick={handleStartDay}>
               👉 Start My Day
@@ -247,7 +229,7 @@ function DayInLife() {
         {screen === 'character-select' && (
           <div className="character-select">
             <h2 className="day-title">Choose Your Day</h2>
-            <p className="day-instruction">Select who you are for the day:</p>
+            <p className="day-instruction">Choose a character to simulate a day without a car:</p>
             <div className="character-grid">
               {CHARACTERS.map((character) => (
                 <button
@@ -263,62 +245,63 @@ function DayInLife() {
         )}
 
         {screen === 'simulation' && currentScenario && (
-          <div className="simulation-screen">
-            <div className="scenario-header">
-              <span className="time-block">{currentScenario.time}</span>
-              <h3 className="scenario-title">{currentScenario.title}</h3>
-            </div>
+          <>
+            <h2 className="day-title">PEOPLE VS. INDEPENDENCE</h2>
+            <div className="simulation-screen">
+              <div className="scenario-header">
+                <span className="time-block">{currentScenario.time}</span>
+                <h3 className="scenario-title">{currentScenario.title}</h3>
+              </div>
             
-            {!showOutcome ? (
-              <div className="options-container">
-                <p className="options-instruction">Choose how you'll get there:</p>
-                <div className="options-grid">
-                  {currentScenario.options.map((option, index) => (
-                    <button
-                      key={index}
-                      className="option-button"
-                      onClick={() => handleOptionSelect(option)}
-                    >
-                      {option.text}
-                    </button>
-                  ))}
+              {!showOutcome && !currentScenario.autoOutcome ? (
+                <div className="options-container">
+                <p className="options-instruction">
+                  {currentScenario.optionsInstruction || "Choose how you'll get there:"}
+                </p>
+                  <div className="options-grid">
+                    {currentScenario.options.map((option, index) => (
+                      <button
+                        key={index}
+                        className="option-button"
+                        onClick={() => handleOptionSelect(option)}
+                      >
+                        {option.text}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="outcome-container">
-                <div className="outcome-result">
-                  {selectedOption && (
-                    <div className="option-result">
-                      <p className="result-text">{selectedOption.result}</p>
-                    </div>
-                  )}
-                  {currentScenario.outcome && (
-                    <div className="outcome-message">
-                      <p className="outcome-text">{currentScenario.outcome}</p>
-                    </div>
-                  )}
-                  {selectedOption && selectedOption.goBack && (
-                    <div className="outcome-message">
-                      <p className="outcome-text">(Go back to previous screen, choose again)</p>
-                    </div>
-                  )}
+              ) : (
+                <div className="outcome-container">
+                  <div className="outcome-result">
+                    {selectedOption && (
+                      <div className="option-result">
+                        <p className="result-text">{selectedOption.result}</p>
+                      </div>
+                    )}
+                    {currentScenario.outcome && (
+                      <div className="outcome-message">
+                        <p className="outcome-text">{currentScenario.outcome}</p>
+                      </div>
+                    )}
+                    {selectedOption && selectedOption.goBack && (
+                      <div className="outcome-message">
+                        <p className="outcome-text">(Go back to previous screen, choose again)</p>
+                      </div>
+                    )}
+                  </div>
+                  <button className="continue-button" onClick={handleContinue}>
+                    {selectedOption && selectedOption.goBack ? '← Choose Again' : '👉 Continue →'}
+                  </button>
                 </div>
-                <button className="continue-button" onClick={handleContinue}>
-                  {selectedOption && selectedOption.goBack ? '← Choose Again' : '👉 Continue →'}
-                </button>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          </>
         )}
 
         {screen === 'results' && (
           <div className="results-screen">
             <h2 className="day-title">Your Results</h2>
             <div className="stats-container">
-              <div className="stat-item">
-                <span className="stat-value">{stats.tripsAttempted}</span>
-                <span className="stat-label">Trips attempted</span>
-              </div>
               <div className="stat-item">
                 <span className="stat-value">{stats.tripsCompleted}</span>
                 <span className="stat-label">Trips completed independently</span>
@@ -348,15 +331,31 @@ function DayInLife() {
           <div className="explanation-screen">
             <h2 className="day-title">Why This Happens</h2>
             <div className="explanation-content">
-              <p>These outcomes aren't accidents or bad luck.</p>
-              <p>They're the result of places designed around driving instead of daily life.</p>
-              <p className="explanation-spacing"></p>
-              <p>When homes, schools, stores, and services are far apart — and walking, biking, or transit isn't safe or reliable — independence becomes conditional.</p>
-              <p>That design works best for people who can drive.</p>
-              <p>Everyone else waits, cancels, or stays home.</p>
-              <p className="explanation-spacing"></p>
-              <p>This isn't a personal failure.</p>
-              <p>It's a design choice.</p>
+              <div className="explanation-intro">
+                <p>These outcomes are systemic, not individual.</p>
+                <p>They come from transportation and land-use decisions that prioritize cars over people.</p>
+              </div>
+
+              <h3 className="explanation-heading">Built Environment</h3>
+              <ul className="explanation-list">
+                <li>Low-density zoning separates housing from jobs, groceries, healthcare, and social spaces.</li>
+                <li>Wide, high-speed roads increase crossing distances and reduce pedestrian safety.</li>
+                <li>Large intersections create long signal cycles and delay safe crossings.</li>
+              </ul>
+
+              <h3 className="explanation-heading">Access Gaps</h3>
+              <ul className="explanation-list">
+                <li>Sidewalk gaps, missing curb ramps, and poor lighting make short trips unsafe or impossible.</li>
+                <li>Transit routes are limited when destinations are spread out.</li>
+                <li>Service frequency drops off-peak, making trips unreliable without a car.</li>
+              </ul>
+
+              <h3 className="explanation-heading">Everyday Impact</h3>
+              <ul className="explanation-list">
+                <li>Travel without a car depends on long detours, unsafe conditions, or finding a driver.</li>
+                <li>Delays and cancellations compound, pushing essential tasks to another day.</li>
+                <li>This isn’t a personal failure; it’s a predictable policy outcome.</li>
+              </ul>
             </div>
             <button className="results-button" onClick={handleBackFromExplanation}>
               ← Back to Results
