@@ -32,7 +32,8 @@ function BingoGame() {
   const [board, setBoard] = useState([]);
   const [selected, setSelected] = useState(new Set());
   const [showWinModal, setShowWinModal] = useState(false);
-  const [hasWon, setHasWon] = useState(false);
+  const [winType, setWinType] = useState(null);
+  const [shownWins, setShownWins] = useState(new Set());
 
   // Initialize board on mount
   useEffect(() => {
@@ -74,6 +75,7 @@ function BingoGame() {
   // Check for win condition
   useEffect(() => {
     if (board.length === 0) return;
+    if (showWinModal) return;
     
     const checkWin = () => {
       // Check rows
@@ -114,12 +116,44 @@ function BingoGame() {
       
       return false;
     };
+
+    const checkFourCorners = () => {
+      const corners = [0, 4, 20, 24];
+      return corners.every((index) => selected.has(index));
+    };
     
-    if (checkWin() && !hasWon) {
-      setHasWon(true);
-      setShowWinModal(true);
+    const checkFullHouse = () => selected.size === 25;
+    
+    const hasFullHouse = checkFullHouse();
+    const hasBingo = checkWin();
+    const hasCorners = checkFourCorners();
+
+    let nextWinType = null;
+    if (hasFullHouse && !shownWins.has('full-house')) {
+      nextWinType = 'full-house';
+    } else if (hasBingo && !shownWins.has('bingo')) {
+      nextWinType = 'bingo';
+    } else if (hasCorners && !shownWins.has('corners')) {
+      nextWinType = 'corners';
     }
-  }, [selected, board, hasWon]);
+
+    if (!nextWinType) return;
+
+    setShownWins(prev => {
+      const updated = new Set(prev);
+      updated.add(nextWinType);
+      if (nextWinType === 'full-house') {
+        if (hasBingo) updated.add('bingo');
+        if (hasCorners) updated.add('corners');
+      } else if (nextWinType === 'bingo' && hasCorners) {
+        updated.add('corners');
+      }
+      return updated;
+    });
+
+    setWinType(nextWinType);
+    setShowWinModal(true);
+  }, [selected, board, showWinModal, shownWins]);
 
   const handleSquareClick = (row, col) => {
     // Free space is always selected, don't allow toggle
@@ -139,6 +173,22 @@ function BingoGame() {
 
   const closeWinModal = () => {
     setShowWinModal(false);
+    setWinType(null);
+  };
+
+  const handleNextActivity = () => {
+    setShowWinModal(false);
+    setWinType(null);
+    const element = document.getElementById('chat');
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
@@ -176,11 +226,20 @@ function BingoGame() {
 
       {showWinModal && (
         <>
-          <div className="modal-overlay" onClick={closeWinModal}></div>
+          <div
+            className="modal-overlay"
+            onClick={winType === 'full-house' ? undefined : closeWinModal}
+          ></div>
           <div className="win-modal">
             <div className="win-modal-content">
               <h2 className="win-modal-title">Congrats!</h2>
-              <p className="win-modal-text">Your suburb was designed for cars, not people.</p>
+              <p className="win-modal-text">
+                {winType === 'full-house'
+                  ? 'Full house! You filled the whole board.'
+                  : winType === 'corners'
+                    ? 'Good job, you got all four corners!'
+                    : 'Congrats you got a bingo and your suburb was designed for cars'}
+              </p>
               <div className="car-confetti">
                 {[...Array(20)].map((_, i) => (
                   <span key={i} className="car-emoji" style={{
@@ -189,13 +248,21 @@ function BingoGame() {
                   }}>🚗</span>
                 ))}
               </div>
-              <button className="win-modal-button" onClick={closeWinModal}>
-                Yay!
-              </button>
+              <div className="win-modal-actions">
+                {winType !== 'full-house' && (
+                  <button className="win-modal-button secondary" onClick={closeWinModal}>
+                    Keep playing
+                  </button>
+                )}
+                <button className="win-modal-button" onClick={handleNextActivity}>
+                  Next activity
+                </button>
+              </div>
             </div>
           </div>
         </>
       )}
+
     </div>
   );
 }

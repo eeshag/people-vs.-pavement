@@ -14,7 +14,7 @@ function Conclusion() {
           
           <div className="conclusion-content">
             <p className="conclusion-paragraph">
-              After watching a video by Not Just Bikes, I realized that the life I had always considered normal wasn't normal at all.
+              After watching a video by Not Just Bikes titled “Why We Won't Raise Our Kids in Suburbia", I realized that the life I had always considered normal wasn't normal at all.
             </p>
             
             <p className="conclusion-paragraph">

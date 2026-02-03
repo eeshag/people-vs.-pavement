@@ -12,10 +12,10 @@ const SCENARIOS = {
       time: 'Morning',
       title: 'Getting to School',
       options: [
-        { text: 'Walk', result: 'Ha! You wish you could walk to school', success: false, goBack: true },
-        { text: 'Bike', result: 'Fast traffic, not safe to bike', success: false, goBack: true },
-        { text: 'Bus', result: 'Bus was late, you were late to school', success: false },
-        { text: 'Ride', result: 'Parents were free to give you a ride', success: true }
+        { text: 'Walk', result: 'School is too far away to walk to with no proper crosswalks to get there', consequence: "You can't walk to school.", success: false, goBack: true },
+        { text: 'Bike', result: 'Fast traffic, not safe to bike', consequence: "You can't bike to school.", success: false, goBack: true },
+        { text: 'Bus', result: 'Bus came late', consequence: "You were late to school.", success: false },
+        { text: 'Ride', result: 'Parents were free to give you a ride', consequence: "You got to school on time.", success: true }
       ],
       outcome: null
     },
@@ -23,10 +23,9 @@ const SCENARIOS = {
       time: 'Afternoon',
       title: 'After-School Activity',
       options: [
-        { text: 'Bus', result: 'You went to the activity, but the late bus never came, you were stuck at school for an hour until someone could come pick you up', success: false },
-        { text: 'Ride', result: 'Your parents said they were busy so you decided to go home early and miss the activity', success: false },
-        { text: 'Walk', result: 'You live too far away to walk to school remember', success: false },
-        { text: 'Bike', result: 'Dark outside, not safe to bike', success: false }
+        { text: 'Bus', result: 'Late bus never came', consequence: "You were stuck at school an after after the activity ended until someone could come pick you up.", success: false },
+        { text: 'Ride', result: 'Your parents said they were busy.', consequence: "You decided to go home early and miss the activity.", success: false },
+        { text: 'Walk', result: 'You live far away from your school, the only way to walk back home is on a highway adjacent road', consequence: "You decide to go home early and miss the activity.", success: false }
       ],
       outcome: null
     },
@@ -34,22 +33,22 @@ const SCENARIOS = {
       time: 'Evening',
       title: 'Hanging out with Friends',
       options: [
-        { text: 'Ride', result: 'Your parents are busy, you have to stay home', success: false },
-        { text: 'Walk', result: 'Highway adjacent road, you have to stay home', success: false },
-        { text: 'Bike', result: 'No bike infrastructure, dark after, you have to stay home', success: false },
-        { text: 'Bus', result: 'No bus routes to anywhere near your friends house', success: false }
+        { text: 'Ride', result: 'Your parents are busy and can\'t drive you there', consequence: "You have to stay home.", success: false },
+        { text: 'Walk', result: 'No sidewalks or streetlights on the way to your friends house', consequence: "You have to stay home.", success: false },
+        { text: 'Bike', result: 'No biking infastructure', consequence: "You have to stay home.", success: false },
+        { text: 'Bus', result: 'No bus routes and stops to anywhere near your friends house', consequence: "You have to stay home.", success: false }
       ],
       outcome: null,
       conditional: true
     },
     {
-      time: 'Afternoon',
+      time: 'Night',
       title: 'Running Errands',
       options: [
-        { text: 'Walk', result: 'No way to get there', success: false },
-        { text: 'Ride', result: 'No car, parents don\'t want to drive you', success: false },
-        { text: 'Bus', result: 'Bus stopped', success: false },
-        { text: 'Bike', result: 'No way to bike there either', success: false }
+        { text: 'Walk', result: 'No safe sidewalks or crossings to reach the destination', consequence: 'You stay home', success: false },
+        { text: 'Ride', result: 'No car, parents don\'t want to drive you', consequence: "You stay home.", success: false },
+        { text: 'Bus', result: 'Bus stopped operating early', consequence: "You stay home.", success: false },
+        { text: 'Bike', result: 'Your parents donated your bike because you never (get to) use it', consequence: "You stay home.", success: false }
       ],
       outcome: null
     }
@@ -59,18 +58,18 @@ const SCENARIOS = {
       time: 'Morning',
       title: 'Medical Appointment',
       options: [
-        { text: 'Walk', result: '❌ No safe crossings', success: false },
-        { text: 'Bus', result: '❌ Long walk to stop', success: false },
-        { text: 'Ride', result: '❌ Depends on family availability', success: false }
+        { text: 'Walk', result: '❌ Crossing time given to pedestrians is short along 6-lane streets with no safe crossings', consequence: 'Your appointment has to be rescheduled.', success: false },
+        { text: 'Bus', result: '❌ Long walk to the bus stop', consequence: 'Your appointment has to be rescheduled.', success: false },
+        { text: 'Ride', result: '❌ Depends on family availability, family unavailable', consequence: 'Your appointment has to be rescheduled.', success: false }
       ],
-      outcome: 'Appointment rescheduled.'
+      outcome: 'Your appointment has to be rescheduled.'
     },
     {
       time: 'Afternoon',
       title: 'Social Activity',
       options: [
-        { text: 'Walk', result: '❌ Too far', success: false },
-        { text: 'Bus', result: '❌ Missed connection', success: false }
+        { text: 'Walk', result: '❌ No shade, no proper path, long distance', consequence: 'You stay home.', success: false },
+        { text: 'Bus', result: '❌ Closest stops land you next to an automall', consequence: 'You stay home.', success: false }
       ],
       outcome: 'You stay home.'
     },
@@ -78,21 +77,21 @@ const SCENARIOS = {
       time: 'Midday',
       title: 'Grocery Run',
       options: [
-        { text: 'Walk', result: '❌ Heavy bags and long distance', success: false },
-        { text: 'Bus', result: '❌ No direct route to the store', success: false },
-        { text: 'Ride', result: '❌ Family can’t come until later', success: false }
+        { text: 'Walk', result: '❌ Heavy bags, you can see the store but can\'t walk there', consequence: 'Groceries are postponed even though you are running low on food at home.', success: false },
+        { text: 'Bus', result: '❌ Bus never came after waiting for 30 minutes at a bus stop without shelter', consequence: 'Groceries are postponed even though you are running low on food at home.', success: false },
+        { text: 'Ride', result: '❌ Family doesn\'t come home until later', consequence: 'Groceries are postponed even though you are running low on food at home.', success: false }
       ],
-      outcome: 'Groceries are postponed.'
+      outcome: 'Groceries are postponed even though you are running low on food at home.'
     },
     {
       time: 'Evening',
       title: 'Pick Up Prescriptions',
       options: [
-        { text: 'Walk', result: '❌ Poor lighting and uneven sidewalks', success: false },
-        { text: 'Bus', result: '❌ Service ends early in the evening', success: false },
-        { text: 'Ride', result: '❌ No one is available to drive', success: false }
+        { text: 'Walk', result: '❌ Poor lighting and uneven sidewalks', consequence: 'Medication pickup is delayed even though you need it to take your medication to sleep.', success: false },
+        { text: 'Bus', result: '❌ Service ends early in the evening', consequence: 'Medication pickup is delayed even though you need it to take your medication to sleep.', success: false },
+        { text: 'Ride', result: '❌ No one is available to drive', consequence: 'Medication pickup is delayed even though you need it to take your medication to sleep.', success: false }
       ],
-      outcome: 'Medication pickup is delayed.'
+      outcome: 'Medication pickup is delayed even though you need it to take your medication to sleep.'
     }
   ]
 };
@@ -208,6 +207,11 @@ function DayInLife() {
   };
 
   const currentScenario = getCurrentScenario();
+  const reasonText = selectedOption?.result || null;
+  const formattedReasonText = reasonText && reasonText.startsWith('❌') ? reasonText : reasonText ? `❌ ${reasonText}` : null;
+  const consequenceText = selectedOption?.hideConsequence
+    ? null
+    : (selectedOption?.consequence ?? currentScenario?.outcome ?? null);
 
   return (
     <div className="day-in-life-section">
@@ -273,14 +277,14 @@ function DayInLife() {
               ) : (
                 <div className="outcome-container">
                   <div className="outcome-result">
-                    {selectedOption && (
+                    {formattedReasonText && (
                       <div className="option-result">
-                        <p className="result-text">{selectedOption.result}</p>
+                        <p className="result-text">{formattedReasonText}</p>
                       </div>
                     )}
-                    {currentScenario.outcome && (
+                    {consequenceText && (
                       <div className="outcome-message">
-                        <p className="outcome-text">{currentScenario.outcome}</p>
+                        <p className="outcome-text">{consequenceText}</p>
                       </div>
                     )}
                     {selectedOption && selectedOption.goBack && (

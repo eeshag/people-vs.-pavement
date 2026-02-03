@@ -23,7 +23,7 @@ function Hero() {
           An interactive set of mini experiences showing how car-dependent design affects everyday choices, access, and independence.
         </p>
         <button className="hero-cta" onClick={handleStartClick}>
-          Start scrolling
+          Start!
         </button>
       </div>
       <div className="hero-divider"></div>

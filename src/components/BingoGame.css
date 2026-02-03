@@ -168,6 +168,13 @@
   line-height: 1.6;
 }
 
+.win-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .win-modal-button {
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
@@ -181,9 +188,18 @@
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
+.win-modal-button.secondary {
+  background-color: #F2F2F2;
+  border: 1px solid #CFCFCF;
+}
+
 .win-modal-button:hover {
   background-color: #FF7A2E;
   transform: translateY(-1px);
+}
+
+.win-modal-button.secondary:hover {
+  background-color: #E9E9E9;
 }
 
 .win-modal-button:active {
@@ -208,6 +224,7 @@
   opacity: 0;
 }
 
+
 @keyframes confettiFall {
   0% {
     opacity: 1;
@@ -218,6 +235,7 @@
     transform: translateY(200px) rotate(360deg);
   }
 }
+
 
 @keyframes fadeIn {
   from {
