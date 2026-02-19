@@ -6,7 +6,7 @@ const QUESTIONS = [
   'Is the bus stop covered?',
   'Can kids get around on their own?',
   'Is there a speed limit here?',
-  'Is this normal?',
+  'Is it normal that I have to drive just to run errands?',
   'Why is the nearest gym so far?',
   'What if I want to walk to clear my head?',
   'Can I safely cross the street mid-run?'
@@ -53,7 +53,7 @@ const RESPONSES = {
     'Enforcement varies.',
     'Compliance is optional.'
   ],
-  'Is this normal?': [
+  'Is it normal that I have to drive just to run errands?': [
     'You\'ve gotten used to it.',
     'It feels normal now.',
     'This is the default.',
