@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
+import { Analytics } from '@vercel/analytics/react';
 import TopNavigation from './components/TopNavigation';
 import Hero from './components/Hero';
 import BingoGame from './components/BingoGame';
@@ -81,6 +82,7 @@ function App() {
       <section id="why">
         <Conclusion />
       </section>
+      <Analytics />
     </div>
   );
 }
